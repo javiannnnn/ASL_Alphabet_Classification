@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0e1c">
+  <title>ASL QUEST — Tiny Hands Edition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ============ RETRO ERROR BANNER ============ -->
+  <div id="errorBanner" class="error-banner" role="alert" hidden>
+    <span id="errorBannerText">ERROR</span>
+  </div>
+
+  <!-- ============ BOOT / TITLE SCREEN ============ -->
+  <div id="bootOverlay" role="button" tabindex="0" aria-label="Press start to begin">
+    <div class="boot-inner">
+      <p class="boot-kicker">IT3381 PRESENTS</p>
+      <h1 class="boot-title">ASL&nbsp;<span class="boot-title-accent">QUEST</span></h1>
+      <p class="boot-sub">- TINY HANDS EDITION -</p>
+      <nav class="boot-menu" aria-hidden="true">
+        <span class="boot-menu-item is-active">&#9654; 1 PLAYER MODE</span>
+        <span class="boot-menu-item">&nbsp;&nbsp;&nbsp;2 PLAYERS</span>
+        <span class="boot-menu-item">&nbsp;&nbsp;&nbsp;OPTIONS</span>
+      </nav>
+      <p id="pressStart" class="press-start">PRESS START</p>
+      <p class="boot-copy">&copy; 199X IT3381 &middot; ALL RIGHTS RESERVED</p>
+    </div>
+  </div>
+
+  <main class="game-shell">
+
+    <!-- ============ TOP HUD ============ -->
+    <header class="hud-top">
+      <p class="hud-title">ASL <em>QUEST</em> &#9656; TINY HANDS EDITION</p>
+      <p class="hud-signs">SIGNS LOADED: <b id="classCount">--</b>/29</p>
+    </header>
+
+    <!-- ============ PLAYER SELECT (MODEL SELECT) ============ -->
+    <section class="panel model-select-panel">
+      <h2 class="panel-title">&#9656; PLAYER SELECT &mdash; CHOOSE YOUR FIGHTER</h2>
+      <div id="modelGrid" class="model-grid">
+        <p class="model-loading">LOADING FIGHTERS...</p>
+      </div>
+      <p class="model-hint">&#9664; &#9654; OR A/D TO SWITCH FIGHTER</p>
+    </section>
+
+    <!-- ============ CRT + HUD COLUMN ============ -->
+    <div class="game-layout">
+
+      <section class="crt-section" aria-label="Camera view">
+        <div class="crt">
+          <div id="crtScreen" class="crt-screen">
+            <video id="cam" class="mirrored" autoplay playsinline muted></video>
+            <canvas id="handOverlay" aria-hidden="true"></canvas>
+            <div class="crt-fx" aria-hidden="true"></div>
+            <div id="aimBrackets" class="aim-brackets" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div id="loadingOverlay" class="loading-overlay" hidden>
+              <p class="loading-text">LOADING<span class="ldot">.</span><span class="ldot">.</span><span class="ldot">.</span></p>
+            </div>
+            <div id="gameOver" class="game-over" hidden>
+              <p class="go-title">GAME OVER</p>
+              <p id="gameOverMsg" class="go-msg">CAMERA UNPLUGGED</p>
+              <p class="go-insert">INSERT COIN &#9660;</p>
+              <button id="retryBtn" class="btn-retro go-retry" type="button">RETRY</button>
+            </div>
+          </div>
+          <div class="crt-chin">
+            <span class="crt-brand">GAMECORDER&nbsp;64</span>
+            <span class="crt-leds">
+              <i class="led led-pwr led-on" aria-hidden="true"></i>PWR
+              <i id="recLed" class="led led-rec" aria-hidden="true"></i>REC
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="hud-col">
+        <section id="signPanel" class="panel sign-panel" aria-live="polite">
+          <h2 class="panel-title">SIGN DETECTED</h2>
+          <div class="letter-box"><span id="predLetter">?</span></div>
+          <div class="meter-row">
+            <span class="meter-label">POWER</span>
+            <div id="powerMeter" class="power-meter" aria-hidden="true"></div>
+          </div>
+          <p id="comboCounter" class="combo-counter">COMBO x0</p>
+          <p id="speedReadout" class="speed-readout">SPEED: ---MS</p>
+        </section>
+
+        <section class="panel top5-panel">
+          <h2 class="panel-title">HIGH SCORES &mdash; TOP 5</h2>
+          <ol id="top5List" class="top5-list">
+            <li class="top5-empty">NO DATA YET</li>
+          </ol>
+        </section>
+      </aside>
+
+    </div>
+
+    <!-- ============ SENTENCE BUILDER (RPG DIALOG BOX) ============ -->
+    <section class="panel dialog-panel">
+      <div class="dialog-head">
+        <h2 class="panel-title">&#9656; MESSAGE LOG</h2>
+        <span id="lenCounter" class="len-counter">LEN 000/64</span>
+      </div>
+      <div id="dialogBox" class="dialog-box">
+        <span id="sentenceText" class="sentence-text" aria-live="polite"></span>
+        <span class="caret" aria-hidden="true">&#9660;</span>
+      </div>
+      <div class="dialog-actions">
+        <button id="backspaceBtn" class="btn-retro btn-dialog btn-danger" type="button">&#9004; DEL</button>
+        <button id="spaceBtn" class="btn-retro btn-space" type="button">SPACE</button>
+        <button id="clearBtn" class="btn-retro btn-dialog btn-danger" type="button">CLR</button>
+        <button id="copyBtn" class="btn-retro btn-dialog" type="button">COPY</button>
+      </div>
+    </section>
+
+    <!-- ============ NES PAD CONTROLS ============ -->
+    <section class="panel pad-panel" aria-label="Controls">
+      <h2 class="panel-title pad-title">&#9656; CONTROLLER</h2>
+      <div class="pad-inner">
+        <div class="dpad" aria-hidden="true"><b class="d-u"></b><b class="d-l"></b><b class="d-m"></b><b class="d-r"></b><b class="d-d"></b></div>
+        <div class="pad-center">
+          <div class="pad-unit">
+            <button id="mirrorBtn" class="pill-btn is-on" type="button" aria-pressed="true">SELECT</button>
+            <span class="pad-unit-label">MIRROR</span>
+          </div>
+          <div class="pad-unit">
+            <button id="liveBtn" class="pill-btn" type="button" aria-pressed="false">START<span id="recDot" class="rec-dot">&#9679; REC</span></button>
+            <span class="pad-unit-label">LIVE ON/OFF</span>
+          </div>
+        </div>
+        <div class="pad-ab">
+          <div class="pad-unit">
+            <button id="addLetterBtn" class="abtn abtn-b" type="button">B</button>
+            <span class="pad-unit-label">ADD LETTER</span>
+          </div>
+          <div class="pad-unit">
+            <button id="captureBtn" class="abtn abtn-a" type="button">A</button>
+            <span class="pad-unit-label">CAPTURE ONCE</span>
+          </div>
+        </div>
+      </div>
+      <div class="switch-row">
+        <label class="switch">
+          <input type="checkbox" id="typeHoldToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">TYPE ON HOLD</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="handGuideToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">HAND GUIDE</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="cropToggle">
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">CROP TO FRAME</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="soundToggle" checked>
+          <span class="switch-track" aria-hidden="true"></span>
+          <span class="switch-label">&#9834; SFX</span>
+        </label>
+      </div>
+    </section>
+
+    <footer class="help-text">
+      <p>HOLD A SIGN STEADY IN THE GOLD BRACKETS &mdash; AFTER ~5 STEADY FRAMES THE LETTER AUTO-TYPES.</p>
+      <p>"DEL" ERASES &bull; "SPACE" ADDS A GAP &bull; "NOTHING" IS IGNORED &bull; LOW CONFIDENCE SHOWS "?"</p>
+    </footer>
+
+  </main>
+
+  <!-- hidden frame grabber -->
+  <canvas id="snapCanvas" hidden></canvas>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
