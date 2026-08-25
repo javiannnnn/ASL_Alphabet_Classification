@@ -52,7 +52,7 @@ asl_webapp/
 ```
 
 - Both `.keras` models bundle their preprocessing layers, so the server just decodes
-  the JPEG data URL, resizes to 128×128 RGB and runs `model.predict` under a lock
+  the JPEG data URL, resizes to 224×224 RGB and runs `model.predict` under a lock
   (thread-safe for gunicorn).
 - Everything runs locally — no frame ever leaves your machine.
 - If port 5000 is taken, change the last line of `app.py`.

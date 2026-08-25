@@ -29,7 +29,7 @@ MODEL_FILES = {
     "efficientnet": ("EfficientNetB0 (fine-tuned)", "asl_efficientnetb0_finetuned.keras"),
 }
 
-IMG_SIZE = 128
+IMG_SIZE = 224
 
 try:
     with open(MODELS_DIR / "class_names.json", encoding="utf-8") as f:
