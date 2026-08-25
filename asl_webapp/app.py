@@ -22,7 +22,7 @@ from PIL import Image
 tf.get_logger().setLevel("ERROR")
 
 BASE_DIR = Path(__file__).resolve().parent
-MODELS_DIR = BASE_DIR.parent / "asl_trained_models"
+MODELS_DIR = BASE_DIR.parent
 
 MODEL_FILES = {
     "scratch": ("Scratch CNN", "asl_scratch_cnn.keras"),
