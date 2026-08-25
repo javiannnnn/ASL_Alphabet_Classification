@@ -23,9 +23,11 @@ so deployment is one click: Render installs `requirements.txt`, starts gunicorn
 (`app:app`, 1 worker / 4 threads), Python 3.11. HTTPS is automatic — required for
 webcam access. The two `.keras` model files (~46 MB combined) are committed to the
 repo so Render has them at build time.
-Note: the free plan's 512 MB RAM is tight for TensorFlow; if the service OOMs,
-switch to the Starter plan. `requirements.txt` uses `tensorflow-cpu` to keep the
-install smaller than the full GPU-enabled package.
+Note: the free plan's 512 MB RAM is tight for TensorFlow. `requirements.txt` uses
+`tensorflow-cpu` to keep the install smaller than the full GPU-enabled package, and
+the server only keeps one model resident in memory at a time — switching models
+evicts the previous one — so trying both models in one session doesn't double the
+footprint. If the service still OOMs, switch to the Starter plan (2 GB RAM).
 
 ## How to play
 

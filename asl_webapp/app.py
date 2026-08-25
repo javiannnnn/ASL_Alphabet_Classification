@@ -42,13 +42,18 @@ _models = {}
 
 
 def get_model(key):
-    """Return the cached model for `key`, loading it on first use."""
+    """Return the cached model for `key`, loading it on first use.
+
+    Only one model is kept resident at a time (evicting any other) to stay
+    under Render free-tier's 512 MB RAM cap when a user switches models.
+    """
     if key in _models:
         return _models[key]
     label, fname = MODEL_FILES[key]
     print(f"[model] loading {label} ...")
     with _lock:
         if key not in _models:
+            _models.clear()
             _models[key] = tf.keras.models.load_model(MODELS_DIR / fname, compile=False)
     return _models[key]
 
