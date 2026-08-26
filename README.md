@@ -80,4 +80,5 @@ TensorFlow/Keras, EfficientNetB0 (ImageNet weights), Flask, vanilla JS, deployed
 ## Reference
 
 Tan, M., & Le, Q. (2019). EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks.
+
 Kaggle *ASL Alphabet* dataset (grassknoted): https://www.kaggle.com/datasets/grassknoted/asl-alphabet
