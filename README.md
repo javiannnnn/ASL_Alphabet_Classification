@@ -14,7 +14,7 @@ Letters like M, N, and S look almost identical (closed fists with small finger d
 
 ```
 .
-├── ASL_Alphabet_Classification.ipynb # Jupyter notebook (saved without .ipynb extension) — full pipeline
+├── ASL_Alphabet_Classification.ipynb # Jupyter notebook 
 ├── asl_scratch_cnn.keras             # trained scratch CNN, exported
 ├── asl_efficientnetb0_finetuned.keras  # trained fine-tuned EfficientNetB0, exported
 ├── class_names.json                  # ordered list of the 29 output classes
