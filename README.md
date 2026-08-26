@@ -1,7 +1,5 @@
 # ASL Alphabet Classification with Deep Learning
 
-**IT3381 Applied Deep Learning Assignment, Part 1 (Computer Vision)**
-
 Author: Javian Ng
 
 A CNN trained from scratch and a fine-tuned EfficientNetB0 are built and compared on the task of classifying static hand-sign images of the American Sign Language (ASL) alphabet, then wired up into a playable webcam demo.
