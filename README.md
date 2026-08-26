@@ -29,11 +29,9 @@ Letters like M, N, and S look almost identical (closed fists with small finger d
     └── static/{css,js}
 ```
 
-> Note: `ASL_Alphabet_Classification` is a Jupyter notebook. Rename it to `ASL_Alphabet_Classification.ipynb` (or open it in Jupyter/VS Code directly — most will detect the format) if your tool needs the extension to render it.
-
 ## Dataset
 
-[Kaggle ASL Alphabet](https://www.kaggle.com/datasets/grassknoted/asl-alphabet) — ~87,000 images across 29 classes (A–Z plus `del`, `nothing`, `space`), roughly balanced. Split stratified 80/10/10 into train/validation/test so every class is proportionally represented in all three.
+[Kaggle ASL Alphabet](https://www.kaggle.com/datasets/grassknoted/asl-alphabet) ~87,000 images across 29 classes (A–Z plus `del`, `nothing`, `space`), roughly balanced. Split stratified 80/10/10 into train/validation/test so every class is proportionally represented in all three.
 
 ## Models
 
@@ -53,15 +51,15 @@ Both models share the same augmentation stack (small random rotation, zoom, tran
 
 ## Limitations
 
-1. **J and Z are motion letters** — they involve a finger trace/wiggle, which no static-frame classifier can represent; only an approximate handshape is captured.
-2. **Studio-vs-webcam domain gap** — training images are clean, centred, and consistently lit, while live webcam frames are noisier, so expect some accuracy drop in the live demo.
-3. **No hand ROI cropping** — full frames include sleeves and background, so some signal leaks in from context rather than the hand itself.
+1. **J and Z are motion letters**: they involve a finger trace/wiggle, which no static-frame classifier can represent; only an approximate handshape is captured.
+2. **Studio-vs-webcam domain gap**: training images are clean, centred, and consistently lit, while live webcam frames are noisier, so expect some accuracy drop in the live demo.
+3. **No hand ROI cropping**: full frames include sleeves and background, so some signal leaks in from context rather than the hand itself.
 
 ## The notebook
 
 `ASL_Alphabet_Classification` walks through the full pipeline end to end: EDA and class balance checks → stratified split → `tf.data` input pipelines → shared augmentation → both model architectures → training (single-phase for the scratch CNN, two-phase frozen/fine-tuned for EfficientNetB0) → final evaluation on the held-out test set (confusion matrices, per-class F1, most-confused pairs, misclassification gallery, latency benchmark) → head-to-head comparison charts → export of both `.keras` models, `class_names.json`, and `model_comparison.json`.
 
-To run it, open in Jupyter/Colab/VS Code with a GPU runtime recommended (CPU works but training will be slow), point it at a local copy of the Kaggle dataset, and run top to bottom.
+To run it, open in Jupyter/Colab/VS Code with a GPU runtime recommended (CPU works but training will be slow), point it at a local copy of the Kaggle dataset, and run top to bottom. I used an L4 GPU runtime and it took around 3 hours for the whole notebook to run. 
 
 ## The webapp
 
