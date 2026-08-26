@@ -14,13 +14,13 @@ Letters like M, N, and S look almost identical (closed fists with small finger d
 
 ```
 .
-├── ASL_Alphabet_Classification     # Jupyter notebook (saved without .ipynb extension) — full pipeline
-├── asl_scratch_cnn.keras           # trained scratch CNN, exported
+├── ASL_Alphabet_Classification.ipynb # Jupyter notebook (saved without .ipynb extension) — full pipeline
+├── asl_scratch_cnn.keras             # trained scratch CNN, exported
 ├── asl_efficientnetb0_finetuned.keras  # trained fine-tuned EfficientNetB0, exported
-├── class_names.json                # ordered list of the 29 output classes
-├── model_comparison.json           # accuracy/params/epochs summary for both models
-├── render.yaml                     # Render Blueprint for one-click webapp deployment
-└── asl_webapp/                     # Flask + JS webcam demo that serves both models
+├── class_names.json                  # ordered list of the 29 output classes
+├── model_comparison.json             # accuracy/params/epochs summary for both models
+├── render.yaml                       # Render Blueprint for one-click webapp deployment
+└── asl_webapp/                       # Flask + JS webcam demo that serves both models
     ├── app.py
     ├── requirements.txt
     ├── templates/index.html
