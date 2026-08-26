@@ -36,11 +36,11 @@ Letters like M, N, and S look almost identical (closed fists with small finger d
 | | Scratch CNN | EfficientNetB0 (fine-tuned) |
 |---|---|---|
 | Architecture | VGG-style: 4 conv blocks (BatchNorm + ReLU), global average pooling, dropout, dense head | ImageNet-pretrained backbone, last 30 layers fine-tuned, new dense head |
-| Test accuracy | 100.0% | 99.92% |
-| Macro-F1 | 1.000 | 0.999 |
+| Test accuracy | tbc | tbc |
+| Macro-F1 | tbc | tbc |
 | Parameters | 1.17M | 4.38M |
-| Epochs trained | 21 (of 25, early stopped) | 20 (10 frozen + 10 fine-tuned) |
-| Mean inference latency | ~76 ms | ~83 ms |
+| Epochs trained | tbc | tbc |
+| Mean inference latency | tbc | tbc |
 | Export size | 14.1 MB | 33.0 MB |
 
 Both models share the same augmentation stack (small random rotation, zoom, translation, brightness, contrast) and the same training callbacks: checkpointing on best validation accuracy, early stopping, LR reduction on plateau, and CSV history logging. During EfficientNetB0 fine-tuning, BatchNorm sub-layers in the unfrozen block are explicitly kept frozen to preserve the ImageNet running statistics.
