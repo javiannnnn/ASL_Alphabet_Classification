@@ -1,0 +1,14 @@
+[
+  {
+    "Model": "Scratch CNN",
+    "Test Accuracy": 0.999885082244873,
+    "Total Params": 1165309,
+    "Epochs Trained": 19
+  },
+  {
+    "Model": "EfficientNetB0 (fine-tuned)",
+    "Test Accuracy": 0.99908047914505,
+    "Total Params": 4384960,
+    "Epochs Trained": 20
+  }
+]
