@@ -10,7 +10,7 @@ Two models are trained on the [Kaggle ASL Alphabet dataset](https://www.kaggle.c
 
 | Model | Test accuracy | Macro-F1 | Params | Export size | Mean latency |
 |---|---|---|---|---|---|
-| Scratch CNN (VGG-style) | 99.99% | 0.9999 | 1.17M | 14.1 MB | ~78.5 ms |
+| Scratch CNN (VGG-style) | 99.94% | 0.9944 | 1.17M | 14.1 MB | ~78.5 ms |
 | EfficientNetB0 (fine-tuned, last 30 layers) | 99.91% | 0.9991 | 4.38M | 33.0 MB | ~86.1 ms |
 
 On this dataset the small from-scratch CNN matches (and slightly beats) the fine-tuned EfficientNetB0 while being smaller and faster — see the notebook's conclusion section for the full analysis of why, and where the trade-off would likely flip.
@@ -59,6 +59,4 @@ Then open `http://127.0.0.1:5000` in a browser and allow camera access. The firs
 3. Install the core dependencies if running locally: `tensorflow`, `numpy`, `pandas`, `matplotlib`, `scikit-learn`, `pillow`.
 4. Run all cells. Section 13 exports the trained models, class list, and comparison JSON into the same layout used by `models/` and `model-comparison/` above.
 
-## Author
 
-Javian Ng — built for IT3381 Applied Deep Learning, Part 1 (Computer Vision).
